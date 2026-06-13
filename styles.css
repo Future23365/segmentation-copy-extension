@@ -1,0 +1,352 @@
+:root {
+  --sc-on-background: #131b2e;
+  --sc-on-surface: #131b2e;
+  --sc-on-surface-variant: #464554;
+  --sc-primary: #4648d4;
+  --sc-secondary: #5c5f61;
+  --sc-surface: #faf8ff;
+  --sc-surface-container-lowest: #ffffff;
+  --sc-surface-container-low: #f2f3ff;
+  --sc-surface-container: #eaedff;
+  --sc-surface-container-high: #e2e7ff;
+  --sc-surface-variant: #dae2fd;
+  --sc-outline: #767586;
+  --sc-outline-variant: #c7c4d7;
+  --sc-error: #ba1a1a;
+  --sc-panel-width: clamp(420px, 42vw, 640px);
+  --sc-popup-width: 460px;
+  --sc-radius: 12px;
+  --sc-shadow-raised: 0 18px 44px rgba(19, 27, 46, 0.14), 0 6px 18px rgba(19, 27, 46, 0.08);
+  --sc-shadow-inset: inset 2px 2px 5px rgba(0, 0, 0, 0.08), inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+  --sc-shadow-fragment: 0 0 15px rgba(70, 72, 212, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+#segmentation-copy-panel-root,
+#segmentation-copy-panel-root *,
+.sc-popup-page,
+.sc-popup-page * {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+#segmentation-copy-panel-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  width: 0;
+  height: 0;
+  color: var(--sc-on-background);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  pointer-events: none;
+}
+
+.sc-panel,
+.sc-popup {
+  overflow: hidden;
+  color: var(--sc-on-background);
+  background: var(--sc-surface);
+  border: 1px solid rgba(199, 196, 215, 0.45);
+  border-radius: var(--sc-radius);
+  box-shadow: var(--sc-shadow-raised);
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.sc-panel {
+  position: fixed;
+  width: min(var(--sc-panel-width), calc(100vw - 24px));
+  pointer-events: auto;
+}
+
+.sc-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 20px;
+  background: rgba(250, 248, 255, 0.7);
+  border-bottom: 1px solid var(--sc-surface-container-low);
+  backdrop-filter: blur(16px);
+}
+
+.sc-panel__title {
+  min-width: 0;
+  color: var(--sc-on-surface);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.sc-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  color: var(--sc-on-surface-variant);
+  font: inherit;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 150ms ease, box-shadow 150ms ease, color 150ms ease;
+}
+
+.sc-icon-button:hover {
+  color: var(--sc-primary);
+  background: rgba(226, 231, 255, 0.65);
+}
+
+.sc-icon-button:active {
+  box-shadow: var(--sc-shadow-inset);
+}
+
+.sc-source {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  color: var(--sc-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  opacity: 0.8;
+}
+
+.sc-link-source {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  color: var(--sc-primary);
+  font: inherit;
+  background: rgba(70, 72, 212, 0.08);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 150ms ease, box-shadow 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.sc-link-source:hover {
+  background: rgba(70, 72, 212, 0.08);
+  border-color: rgba(70, 72, 212, 0.2);
+  box-shadow: var(--sc-shadow-fragment);
+}
+
+.sc-token-canvas {
+  max-height: min(360px, calc(100vh - 160px));
+  margin: 0;
+  padding: 14px 20px 20px;
+  overflow: auto;
+  color: var(--sc-on-surface);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 2.8;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.sc-token {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  padding: 4px 8px;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease, color 300ms ease;
+}
+
+.sc-token:hover,
+.sc-token:focus-visible {
+  color: var(--sc-primary);
+  background: rgba(70, 72, 212, 0.08);
+  border-color: rgba(70, 72, 212, 0.2);
+  box-shadow: var(--sc-shadow-fragment);
+  outline: none;
+}
+
+.sc-token--structure,
+.sc-token--punctuation,
+.sc-token--symbol {
+  color: var(--sc-outline);
+}
+
+.sc-token--copied,
+.sc-token--copied:hover,
+.sc-token--copied:focus-visible {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 10px;
+  color: var(--sc-primary);
+  font-weight: 700;
+  line-height: inherit;
+  vertical-align: middle;
+  background: rgba(70, 72, 212, 0.08);
+  border-color: rgba(70, 72, 212, 0.2);
+  box-shadow: var(--sc-shadow-fragment);
+  transform: none;
+}
+
+.sc-token--copied::before {
+  content: "✓";
+  font-size: 12px;
+  line-height: 1;
+}
+
+.sc-panel--copy-closing {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.sc-panel--copy-closing .sc-panel__header,
+.sc-panel--copy-closing .sc-source,
+.sc-panel--copy-closing .sc-panel__footer,
+.sc-panel--copy-closing .sc-popup__input,
+.sc-panel--copy-closing .sc-input-label,
+.sc-panel--copy-closing .sc-textarea,
+.sc-panel--copy-closing .sc-empty-message,
+.sc-panel--copy-closing .sc-link-source {
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.sc-panel--copy-closing .sc-token {
+  opacity: 0;
+  transform: translateY(-2px) scale(0.98);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.sc-panel--copy-closing .sc-token--linger,
+.sc-panel--copy-closing .sc-token--linger:hover,
+.sc-panel--copy-closing .sc-token--linger:focus-visible {
+  opacity: 1;
+  color: var(--sc-primary);
+  background: rgba(70, 72, 212, 0.08);
+  border-color: rgba(70, 72, 212, 0.2);
+  box-shadow: var(--sc-shadow-fragment);
+  transform: translateY(-1px) scale(1.03);
+  animation: sc-token-linger-out 620ms ease 120ms forwards;
+}
+
+@keyframes sc-token-linger-out {
+  0% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.03);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.03);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98);
+  }
+}
+
+.sc-panel__footer {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px;
+  color: var(--sc-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  border-top: 1px solid rgba(242, 243, 255, 0.6);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.sc-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--sc-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+
+.sc-empty-message {
+  padding: 16px;
+  color: var(--sc-on-surface-variant);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.sc-popup-page {
+  width: var(--sc-popup-width);
+  min-height: 480px;
+  margin: 0;
+  color: var(--sc-on-background);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top right, var(--sc-surface-container), var(--sc-surface));
+}
+
+.sc-popup {
+  width: var(--sc-popup-width);
+  min-height: 500px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sc-popup__input {
+  display: grid;
+  gap: 7px;
+  padding: 20px 20px 0;
+}
+
+.sc-input-label {
+  color: var(--sc-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+.sc-textarea {
+  width: 100%;
+  min-height: 112px;
+  resize: vertical;
+  padding: 10px 12px;
+  color: var(--sc-on-surface);
+  font: inherit;
+  font-size: 13px;
+  line-height: 20px;
+  background: var(--sc-surface-container-lowest);
+  border: 1px solid var(--sc-outline-variant);
+  border-radius: 8px;
+  outline: none;
+  box-shadow: var(--sc-shadow-inset);
+}
+
+.sc-textarea:focus {
+  border-color: var(--sc-primary);
+}
+
+.sc-token-canvas--popup {
+  max-height: 250px;
+}
+
+.sc-empty-message--popup {
+  padding: 0;
+}

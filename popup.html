@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文字拆分复制</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="sc-popup-page">
+    <main class="sc-popup">
+      <header class="sc-panel__header">
+        <div class="sc-panel__title">文字拆分复制</div>
+      </header>
+
+      <section class="sc-popup__input">
+        <label class="sc-input-label" for="sourceText">待拆分文本</label>
+        <textarea id="sourceText" class="sc-textarea" rows="5" placeholder="粘贴标题、链接或文件名"></textarea>
+      </section>
+
+      <section>
+        <div class="sc-source" id="sourceHint">手动输入</div>
+        <div class="sc-token-canvas sc-token-canvas--popup" id="tokenCanvas"></div>
+      </section>
+
+      <footer class="sc-panel__footer">
+        <span class="sc-info-icon">i</span>
+        <span id="feedbackText">点击片段即可复制</span>
+      </footer>
+    </main>
+
+    <script src="src/tokenizer.js"></script>
+    <script src="src/clipboard.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
